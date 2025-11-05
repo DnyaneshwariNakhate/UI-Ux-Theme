@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UI/UX Templates</title>
+  <link rel="stylesheet" href="site.css">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body class="dashboard-page">
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar -->
+      <aside class="col-lg-3 col-xl-2 sidebar" id="sidebar" style="padding-top: 30px; background-color: white;">
+        <div class="sidebar-header d-flex justify-content-between align-items-start">
+          <!-- <div class="logo">
+            <img src="images/logo-small 1.png" alt="">
+          </div> -->
+          <button class="btn-close-sidebar d-lg-none" id="sidebarClose">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+
+        <div class="d-grid gap-2">
+          <!-- Table (dropdown) -->
+          <a class="menu-pill active" data-bs-toggle="collapse" href="#TableMenu" role="button" aria-expanded="false"
+            aria-controls="TableMenu">
+            <i class="ri-table-fill"></i>
+            <span>Table</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="TableMenu">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Table/bulk actiion-table.html" class="menu-pill"><i class="ri-table-line"></i>Inline Bulk
+                action</a>
+              <a href="Table/Modern.html" class="menu-pill"><i class="ri-table-line"></i>Modern Table</a>
+              <a href="Table/stripes-table.html" class="menu-pill"><i class="ri-table-line"></i>Striped-Tabel
+              </a>
+              <a href="Table/colorfull-table.html" class="menu-pill"><i class="ri-table-line"></i>Colorfull
+              </a>
+            </div>
+          </div>
+
+          <!--Tab (dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#TabMenu" role="button" aria-expanded="false"
+            aria-controls="TabMenu">
+            <i class="ri-award-fill"></i>
+            <span>Tabs</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="TabMenu">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Tabs/Basic Horizontal Tabs.html" class="menu-pill"><i class="ri-award-line"></i>Basic Tab</a>
+              <a href="Tabs/Pill-Shaped Tabs.html" class="menu-pill"><i class="ri-award-line"></i>pill shape tab</a>
+              <a href="Tabs/Tabs with Icons.html" class="menu-pill"><i class="ri-award-line"></i>icon tab</a>
+              <a href="Tabs/Underline Animation Tabs.html" class="menu-pill"><i class="ri-award-line"></i>Animation
+                tab</a>
+            </div>
+          </div>
+
+          <!-- Tooltip(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Tooltip" role="button" aria-expanded="false"
+            aria-controls="Tooltip">
+            <i class="ri-award-fill"></i>
+            <span>Tooltip</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Tooltip">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Tooltip/Clickable Tooltip.html" class="menu-pill"><i class="ri-award-line"></i>Clickable
+                tooltip</a>
+              <a href="Tooltip/Simple Tooltip.html" class="menu-pill"><i class="ri-award-line"></i>Simple tooltip</a>
+            </div>
+          </div>
+
+          <!-- SkeletonLoader(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Skeletonloader" role="button" aria-expanded="false"
+            aria-controls="Skeletonloader">
+            <i class="ri-award-fill"></i>
+            <span>Skeleton Loader</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Skeletonloader">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Skeleton Loader/Circular Avatar Loader.html" class="menu-pill"><i
+                  class="ri-award-line"></i>circular Loader</a>
+              <a href="Skeleton Loader/Full Page Layout Skeleton.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Full page Layout</a>
+              <a href="Skeleton Loader/Image Placeholder Skeleton.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Image Placeholder</a>
+              <a href="Skeleton Loader/Shimmering Card.html" class="menu-pill"><i class="ri-award-line"></i>Card
+                Loader</a>
+              <a href="Skeleton Loader/Text Line Loader.html" class="menu-pill"><i class="ri-award-line"></i>Text
+                Loader</a>
+            </div>
+          </div>
+
+          <!-- rating(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#rating" role="button" aria-expanded="false"
+            aria-controls="rating">
+            <i class="ri-award-fill"></i>
+            <span>Rating</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="rating">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Rating component/RatingEmojiVariants.html" class="menu-pill"><i class="ri-award-line"></i>Emoji
+                Rating</a>
+              <a href="Rating component/Star Rating Variants.html" class="menu-pill"><i class="ri-award-line"></i>Start
+                rating</a>
+            </div>
+          </div>
+
+          <!-- PROGRESS BAR(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Progressbar" role="button" aria-expanded="false"
+            aria-controls="Progressbar">
+            <i class="ri-award-fill"></i>
+            <span>Progress Bar</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Progressbar">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Progress Bar/Horizontal Step Progress Bar.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Step progress bar</a>
+            </div>
+          </div>
+
+          <!-- PILLS(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Pills" role="button" aria-expanded="false"
+            aria-controls="Pills">
+            <i class="ri-award-fill"></i>
+            <span>Pills</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Pills">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Pills/Icon Pills.html" class="menu-pill"><i class="ri-award-line"></i>Simple Icon pill</a>
+              <a href="Pills/Filter Pills.html" class="menu-pill"><i class="ri-award-line"></i>Filter Pill-Icon</a>
+              <a href="Pills/pills-removable.html" class="menu-pill"><i class="ri-award-line"></i>Removeable Pill</a>
+            </div>
+          </div>
+
+          <!-- Navbar(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#navbar" role="button" aria-expanded="false"
+            aria-controls="navbar">
+            <i class="ri-award-fill"></i>
+            <span>Navbar Component</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="navbar">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Navbar-components/Basic Navbar.html" class="menu-pill"><i class="ri-award-line"></i>Basic
+                Navbar</a>
+              <a href="Navbar-components/Dropdown-navbar.html" class="menu-pill"><i class="ri-award-line"></i>Dropdown
+                Navbar</a>
+              <a href="Navbar-components/Mega-menu.html" class="menu-pill"><i class="ri-award-line"></i>Megha Menu</a>
+              <a href="Navbar-components/Navbar CTA Button.html" class="menu-pill"><i class="ri-award-line"></i>CTA
+                Button</a>
+              <a href="Navbar-components/Navbar with Avatar.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Avatar</a>
+              <a href="Navbar-components/Navbar with Search Bar.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Search bar</a>
+              <a href="Navbar-components/Secondary Top Bar .html" class="menu-pill"><i
+                  class="ri-award-line"></i>Secondary Navbar</a>
+              <a href="Navbar-components/side-top-bar.html" class="menu-pill"><i class="ri-award-line"></i>Sidebar</a>
+              <a href="Navbar-components/Transparent Navbar.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Transparent</a>
+            </div>
+          </div>
+
+          <!-- MODAL(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#modal" role="button" aria-expanded="false"
+            aria-controls="modal">
+            <i class="ri-award-fill"></i>
+            <span>Modal</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="modal">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Modal/Centered modal.html" class="menu-pill"><i class="ri-award-line"></i>Centered Modal</a>
+              <a href="Modal/Confirmation dialog.html" class="menu-pill"><i class="ri-award-line"></i>Confirmation</a>
+              <a href="Modal/Fullscreen modal.html" class="menu-pill"><i class="ri-award-line"></i>Full Screen</a>
+              <a href="Modal/Slide-in modal.html" class="menu-pill"><i class="ri-award-line"></i>Slide in modal</a>
+            </div>
+          </div>
+
+          <!-- LOADING SPINNER(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#LoadingSpinner" role="button" aria-expanded="false"
+            aria-controls="LoadingSpinner">
+            <i class="ri-award-fill"></i>
+            <span>Loading Spinner</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="LoadingSpinner">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Loading Spinner/Classic Rotating Circle.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Classic Rotating Circle</a>
+              <a href="Loading Spinner/Cube Flip Loader.html" class="menu-pill"><i class="ri-award-line"></i>Cube
+                flip</a>
+              <a href="Loading Spinner/Dots Bouncing.html" class="menu-pill"><i class="ri-award-line"></i>Dot
+                bouncing</a>
+              <a href="Loading Spinner/Dual Ring Spinner.html" class="menu-pill"><i class="ri-award-line"></i>Dual
+                Ring</a>
+              <a href="Loading Spinner/growing.html" class="menu-pill"><i class="ri-award-line"></i>Growing</a>
+              <a href="Loading Spinner/Pulsing Circle.html" class="menu-pill"><i class="ri-award-line"></i>Pulsing</a>
+            </div>
+          </div>
+
+          <!-- Interactive Lists(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#InteractiveLists" role="button" aria-expanded="false"
+            aria-controls="InteractiveLists">
+            <i class="ri-award-fill"></i>
+            <span>Interactive Lists</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="InteractiveLists">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Interactive Lists/Checklist with Animated Tick.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Animation Tick</a>
+              <a href="Interactive Lists/Drag-and-Drop List.html" class="menu-pill"><i class="ri-award-line"></i>Drag
+                and Drop</a>
+              <a href="Interactive Lists/Expandable List Items.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Expandable List</a>
+            </div>
+          </div>
+
+          <!-- FORM(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#form" role="button" aria-expanded="false"
+            aria-controls="form">
+            <i class="ri-award-fill"></i>
+            <span>Form</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="form">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Forms/Classic Centered Form.html" class="menu-pill"><i class="ri-award-line"></i>Classic
+                center</a>
+              <a href="Forms/glassmorphic.html" class="menu-pill"><i class="ri-award-line"></i>glassmorphic Login</a>
+              <a href="Forms/Minimal Inline Login.html" class="menu-pill"><i class="ri-award-line"></i>Minimal Inline
+                Login</a>
+              <a href="Forms/OTP-Based Login.html" class="menu-pill"><i class="ri-award-line"></i>OTP Based</a>
+              <a href="Forms/Side Panel overlay Login.html" class="menu-pill"><i class="ri-award-line"></i>Side panel
+                overlay</a>
+              <a href="Forms/Social Login Focus.html" class="menu-pill"><i class="ri-award-line"></i>Social Login</a>
+              <a href="Forms/Split Screen Layout.html" class="menu-pill"><i class="ri-award-line"></i>Split Screen</a>
+              <a href="Forms/step-multi Login.html" class="menu-pill"><i class="ri-award-line"></i>Multi Step</a>
+              <a href="Forms/Tabbed Auth Form.html" class="menu-pill"><i class="ri-award-line"></i>Tabed Auth Form</a>
+            </div>
+          </div>
+
+          <!-- FOOTER(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#footer" role="button" aria-expanded="false"
+            aria-controls="footer">
+            <i class="ri-award-fill"></i>
+            <span>Footer</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="footer">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Footer/Contact Information Footer.html" class="menu-pill"><i class="ri-award-line"></i>Contact
+                Information</a>
+              <a href="Footer/FooterSocialmedia.html" class="menu-pill"><i class="ri-award-line"></i>Social Media</a>
+              <a href="Footer/Mega Footer.HTML" class="menu-pill"><i class="ri-award-line"></i>Megha Footer</a>
+              <a href="Footer/Multi-Column Footer.html" class="menu-pill"><i class="ri-award-line"></i>Multi-column</a>
+              <a href="Footer/Newsletter.html" class="menu-pill"><i class="ri-award-line"></i>Newsletter</a>
+              <a href="Footer/Simple footer v2.html" class="menu-pill"><i class="ri-award-line"></i>Simple </a>
+              <a href="Footer/Simple footer-center.html" class="menu-pill"><i class="ri-award-line"></i>Simple-
+                Center</a>
+              <a href="Footer/Sticky-footer.html" class="menu-pill"><i class="ri-award-line"></i>Sticky</a>
+            </div>
+          </div>
+
+          <!-- CARD(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Card" role="button" aria-expanded="false"
+            aria-controls="Card">
+            <i class="ri-award-fill"></i>
+            <span>Card</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Card">
+            <div class="d-grid gap-2 mt-2">
+              <a href="E-Commerce/Shopping Cart.html" class="menu-pill"><i class="ri-award-line"></i>Shoping Cart</a>
+              <a href="Cards/Product Card .html" class="menu-pill"><i class="ri-award-line"></i>Product</a>
+              <a href="Cards/BLog-Card.html" class="menu-pill"><i class="ri-award-line"></i>Blog card</a>
+              <a href="Cards/Profile Card.html" class="menu-pill"><i class="ri-award-line"></i>Horzontal Profile</a>
+              <a href="Cards/stats.html" class="menu-pill"><i class="ri-award-line"></i>Stats</a>
+              <a href="Cards/glass-effect.html" class="menu-pill"><i class="ri-award-line"></i>Glassmorphic</a>
+            </div>
+          </div>
+
+          <!-- OFF CANVAS(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#OffCanvas" role="button" aria-expanded="false"
+            aria-controls="OffCanvas">
+            <i class="ri-award-fill"></i>
+            <span>Off Canvas</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="OffCanvas">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Drawers-Off-Canvas/Left-side drawer menu.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Left Side</a>
+              <a href="Drawers-Off-Canvas/Right-side settings drawer.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Right Side</a>
+              <a href="Drawers-Off-Canvas/Shopping cart drawer.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Shopping Cart</a>
+            </div>
+          </div>
+
+          <!-- COOKIES(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Cookies" role="button" aria-expanded="false"
+            aria-controls="Cookies">
+            <i class="ri-award-fill"></i>
+            <span>Cookies</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Cookies">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Cookies/Cookie.html" class="menu-pill"><i class="ri-award-line"></i>Classic</a>
+            </div>
+          </div>
+
+          <!-- CAROUSAL(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Carousal" role="button" aria-expanded="false"
+            aria-controls="Carousal">
+            <i class="ri-award-fill"></i>
+            <span>Carousal</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Carousal">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Carousal/Brand Logo Slider.html" class="menu-pill"><i class="ri-award-line"></i>Brand Logo</a>
+              <a href="Carousal/Card Flip Slider.html" class="menu-pill"><i class="ri-award-line"></i>Card Flip</a>
+              <a href="Carousal/card-3Danimation.html" class="menu-pill"><i class="ri-award-line"></i>3D Animation</a>
+              <a href="Carousal/Fade Transition Slider.html" class="menu-pill"><i class="ri-award-line"></i>Fade
+                Transition</a>
+              <a href="Carousal/Infinite Loop Slide.html" class="menu-pill"><i class="ri-award-line"></i>Infinite
+                Loop</a>
+              <a href="Carousal/overlaytext.html" class="menu-pill"><i class="ri-award-line"></i>Overlay text</a>
+              <a href="Carousal/Split Screen Slider.html" class="menu-pill"><i class="ri-award-line"></i>Split
+                Screen</a>
+              <a href="Carousal/Thumbnail Navigation Slider.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Thumnnail Navigation</a>
+              <a href="Carousal/Vertical Slider.html" class="menu-pill"><i class="ri-award-line"></i>Vertical</a>
+            </div>
+          </div>
+
+          <!-- BREADCRUMPS(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Breadcrumps" role="button" aria-expanded="false"
+            aria-controls="Breadcrumps">
+            <i class="ri-award-fill"></i>
+            <span>Breadcrumps</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Breadcrumps">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Breadcrumb/Simple Text Breadcrumb.html" class="menu-pill"><i class="ri-award-line"></i>Simple</a>
+              <a href="Breadcrumb/Clickable Links Breadcrumb.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Clickable links</a>
+              <a href="Breadcrumb/Dropdown Breadcrumb.html" class="menu-pill"><i class="ri-award-line"></i>Dropdown</a>
+              <a href="Breadcrumb/Icon-Text Breadcrumb.html" class="menu-pill"><i class="ri-award-line"></i>Icon</a>
+              <a href="Breadcrumb/breadcrumbOverflow.html" class="menu-pill"><i class="ri-award-line"></i>Overflow</a>
+            </div>
+          </div>
+
+          <!-- ACCORDION(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Accordion" role="button" aria-expanded="false"
+            aria-controls="Accordion">
+            <i class="ri-award-fill"></i>
+            <span>Accordion</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Accordion">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Accordion-FAQ/Basic Single Expand.html" class="menu-pill"><i class="ri-award-line"></i>Basic</a>
+              <a href="Accordion-FAQ/Animated Content Reveal.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Animated Content</a>
+              <a href="Accordion-FAQ/Border Style Accordion.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Bordered</a>
+              <a href="Accordion-FAQ/Card Style Accordion.html" class="menu-pill"><i class="ri-award-line"></i>Card
+                Style</a>
+              <a href="Accordion-FAQ/FAQ + Search Filter.html" class="menu-pill"><i class="ri-award-line"></i>FAQ Search Filter</a>
+              <a href="Accordion-FAQ/Icon-Based Accordion.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Icon-Based </a>
+              <a href="Accordion-FAQ/Multiple Expand.html" class="menu-pill"><i class="ri-award-line"></i>Multi
+                Expand</a>
+              <a href="Accordion-FAQ/Numbered Accordion.html" class="menu-pill"><i
+                  class="ri-award-line"></i>Numbered</a>
+              <a href="Accordion-FAQ/Side-by-Side Accordion.html" class="menu-pill"><i class="ri-award-line"></i>Side by
+                Side</a>
+            </div>
+          </div>
+
+          <!-- Interactive(dropdown) -->
+          <a class="menu-pill" data-bs-toggle="collapse" href="#Interactive" role="button" aria-expanded="false"
+            aria-controls="Interactive">
+            <i class="ri-award-fill"></i>
+            <span>Interactive</span>
+            <i class="ri-arrow-down-s-line ms-auto"></i>
+          </a>
+          <div class="collapse submenu" id="Interactive">
+            <div class="d-grid gap-2 mt-2">
+              <a href="Interactive/" class="menu-pill"><i class="ri-award-line"></i>Scroll to Top Button</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content column -->
+      <main class="col content-col">
+
+        <!-- Topbar -->
+        <div class="topbar">
+          <button class="sidebar-toggle d-lg-none" id="sidebarToggle">
+            <i class="ri-menu-line"></i> Menu
+          </button>
+        </div>
+
+        <!-- main conetnt -->
+        <section class="px-3 px-lg-2 pb-4">
+          <div class="card-soft p-3 p-lg-4">
+        
+        
+        
+        
+        
+        
+          </div>
+          </div>
+        </section>
+    </main>
+  </div>
+  </div>
+
+  <!-- Bootstrap JS (with Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="Template.js"></script>
+</body>
+
+</html>

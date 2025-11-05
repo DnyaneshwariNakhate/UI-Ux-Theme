@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            background: #f7f7f7;
+            /* padding: 40px; */
+        }
+
+        ul.expandable-list {
+            list-style: none;
+            padding: 0;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        ul.expandable-list li {
+            background: #fff;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        ul.expandable-list li:hover {
+            transform: scale(1.01);
+        }
+
+        .item-header {
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .item-header::after {
+            content: "+";
+            position: absolute;
+            right: 20px;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        li.active .item-header::after {
+            content: "-";
+            transform: rotate(180deg);
+        }
+
+        .item-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            background: #fafafa;
+            color: #555;
+            line-height: 1.6;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+
+        li.active .item-content {
+            max-height: 200px;
+            /* adjust as needed */
+            padding: 15px 20px;
+        }
+    </style>
+</head>
+
+<body class="dashboard-page">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar placeholder -->
+            <div id="sidebar-container" class="col-lg-3 col-xl-2 p-0"></div>
+
+            <!-- Main content -->
+            <main class="col-lg-9 col-xl-10">
+                <div class="topbar d-flex align-items-center p-2 border-bottom">
+                    <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i
+                            class="ri-menu-line"></i></button>
+                    <h5 class="ms-3 mb-0">Dashboard</h5>
+                </div>
+
+                <section class="p-3">
+                    <div class="card-soft p-3">
+                        <!-- ------------------ -->
+                        <ul class="expandable-list">
+                            <li>
+                                <div class="item-header">What is UI/UX?</div>
+                                <div class="item-content">
+                                    UI stands for User Interface and UX stands for User Experience. Together they create
+                                    meaningful product designs.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-header">Why is responsive design important?</div>
+                                <div class="item-content">
+                                    Responsive design ensures websites work smoothly on all devices like mobiles,
+                                    tablets, and desktops.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-header">What is a wireframe?</div>
+                                <div class="item-content">
+                                    A wireframe is a basic visual guide used to suggest the structure and layout of a
+                                    website or app.
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- ------------------ -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('../sidebar-content.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+
+                // Highlight active menu
+                const current = window.location.pathname.split('/').pop();
+                document.querySelectorAll('#sidebar-container a').forEach(link => {
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                        let parent = link.closest('.collapse');
+                        while (parent) {
+                            new bootstrap.Collapse(parent, { toggle: true });
+                            parent = parent.closest('.collapse');
+                        }
+                    }
+                });
+
+                // Sidebar toggle for mobile
+                const sidebar = document.querySelector('.sidebar');
+                document.getElementById('sidebarToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+                const sidebarClose = document.getElementById('sidebarClose');
+                if (sidebarClose) sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+            });
+    </script>
+    <script>
+        const items = document.querySelectorAll(".expandable-list li");
+        items.forEach(item => {
+            item.addEventListener("click", () => {
+                item.classList.toggle("active");
+            });
+        });
+    </script>
+</body>
+
+</html>

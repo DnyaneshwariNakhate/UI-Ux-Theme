@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            background: #ffffff;
+            padding: 10px 20px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative !important;
+        }
+
+        .navbar-logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #00999A;
+        }
+
+        .avatar-container {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            min-width: 160px;
+            z-index: 1000;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .dropdown a {
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background-color: #f2f2f2;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown.show {
+            display: flex;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hamburger + Mobile Responsive */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 10px 0;
+                text-align: center;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .nav-toggle:checked+.hamburger+.nav-links {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .avatar-container {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-page">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar placeholder -->
+            <div id="sidebar-container" class="col-lg-3 col-xl-2 p-0"></div>
+
+            <!-- Main content -->
+            <main class="col-lg-9 col-xl-10">
+                <div class="topbar d-flex align-items-center p-2 border-bottom">
+                    <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i
+                            class="ri-menu-line"></i></button>
+                    <h5 class="ms-3 mb-0">Dashboard</h5>
+                </div>
+
+                <section class="p-3">
+                    <div class="card-soft p-3">
+                        <!-- ------------------ -->
+                        <nav class="navbar">
+                            <div class="navbar-logo">MyApp</div>
+
+                            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+                            <label for="nav-toggle" class="hamburger">&#9776;</label>
+
+                            <ul class="nav-links">
+                                <li><a href="#">Dashboard</a></li>
+                                <li><a href="#">Projects</a></li>
+                                <li><a href="#">Messages</a></li>
+                            </ul>
+
+                            <div class="avatar-container">
+                                <img src="/images/user-profile.png" alt="User Avatar" class="avatar" id="avatarBtn" />
+                                <div class="dropdown" id="dropdownMenu">
+                                    <a href="#">My Profile</a>
+                                    <a href="#">Settings</a>
+                                    <a href="#">Notifications</a>
+                                    <a href="#">Log out</a>
+                                </div>
+                            </div>
+                        </nav>
+                        <!-- ------------------ -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('../sidebar-content.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+
+                // Highlight active menu
+                const current = window.location.pathname.split('/').pop();
+                document.querySelectorAll('#sidebar-container a').forEach(link => {
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                        let parent = link.closest('.collapse');
+                        while (parent) {
+                            new bootstrap.Collapse(parent, { toggle: true });
+                            parent = parent.closest('.collapse');
+                        }
+                    }
+                });
+
+                // Sidebar toggle for mobile
+                const sidebar = document.querySelector('.sidebar');
+                document.getElementById('sidebarToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+                const sidebarClose = document.getElementById('sidebarClose');
+                if (sidebarClose) sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+            });
+    </script>
+    <script>
+        const avatarBtn = document.getElementById('avatarBtn');
+        const dropdown = document.getElementById('dropdownMenu');
+        document.addEventListener('click', (e) => {
+            if (avatarBtn.contains(e.target)) {
+                dropdown.classList.toggle('show');
+            } else {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+
+</body>
+
+</html>

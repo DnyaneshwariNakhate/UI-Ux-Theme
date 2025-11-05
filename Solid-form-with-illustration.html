@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+   <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f8fa;
+  color: #333;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  gap: 40px;
+}
+
+.illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illustration img {
+  max-width: 100%;
+  height: auto;
+  width: 60%;
+}
+
+.login-form {
+  flex: 1;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  max-width: 400px;
+}
+
+.login-form h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.login-form p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.input-group input:focus {
+  border-color: #00999A;
+  outline: none;
+}
+
+.actions {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.actions a {
+  font-size: 12px;
+  color: #00999A;
+  text-decoration: none;
+}
+
+button {
+  width: 100%;
+  background-color: #00999A;
+  color: #fff;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #007f81;
+}
+
+.signup-text {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-text a {
+  color: #00999A;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .login-form {
+    max-width: 100%;
+  }
+}
+
+    </style>
+</head>
+
+<body class="dashboard-page">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar placeholder -->
+            <div id="sidebar-container" class="col-lg-3 col-xl-2 p-0"></div>
+
+            <!-- Main content -->
+            <main class="col-lg-9 col-xl-10">
+                <div class="topbar d-flex align-items-center p-2 border-bottom">
+                    <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i
+                            class="ri-menu-line"></i></button>
+                    <h5 class="ms-3 mb-0">Dashboard</h5>
+                </div>
+
+                <section class="p-3">
+                    <div class="card-soft p-3">
+                        <!-- ------------------ -->
+                        <div class="login-container">
+    <div class="illustration">
+      <img src="/images/corporate.jpg" alt="Friendly Illustration">
+    </div>
+    <div class="login-form">
+      <h1>Welcome Back</h1>
+      <p>Please log in to continue</p>
+      <form>
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <div class="actions">
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Login</button>
+        <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+                        <!-- ------------------ -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('../sidebar-content.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+
+                // Highlight active menu
+                const current = window.location.pathname.split('/').pop();
+                document.querySelectorAll('#sidebar-container a').forEach(link => {
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                        let parent = link.closest('.collapse');
+                        while (parent) {
+                            new bootstrap.Collapse(parent, { toggle: true });
+                            parent = parent.closest('.collapse');
+                        }
+                    }
+                });
+
+                // Sidebar toggle for mobile
+                const sidebar = document.querySelector('.sidebar');
+                document.getElementById('sidebarToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+                const sidebarClose = document.getElementById('sidebarClose');
+                if (sidebarClose) sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+            });
+    </script>
+    <script>
+    // Optional: Toggle password visibility
+document.addEventListener("DOMContentLoaded", function() {
+  const passwordInput = document.getElementById("password");
+  const toggleBtn = document.createElement("span");
+
+  toggleBtn.textContent = "👁";
+  toggleBtn.style.cursor = "pointer";
+  toggleBtn.style.marginLeft = "-30px";
+  toggleBtn.style.userSelect = "none";
+
+  passwordInput.parentNode.appendChild(toggleBtn);
+
+  toggleBtn.addEventListener("click", function() {
+    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+  });
+});
+
+  </script>
+</body>
+
+</html>

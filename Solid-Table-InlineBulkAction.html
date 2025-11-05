@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+ <style>
+    :root {
+      --brand: #00999A;
+      --accent: #1B85C2;
+      --danger: #D82C37;
+      --muted: #777;
+      --bg: #f7f8fa;
+      --card: #fff;
+      --radius: 10px;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    body {
+      background: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: #111;
+      font-size: 14px
+    }
+
+    .container {
+      max-width:1500px;
+      margin: 0 auto
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 20px rgba(10, 20, 30, .06);
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+      padding: 14px 18px;
+    }
+
+    .left-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .add-btn {
+      background: var(--brand);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .search {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      min-width: 220px;
+    }
+
+    .rows-select {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd
+    }
+
+    /* Bulk bar (sticky) */
+    .bulk-bar {
+      position: sticky;
+      top: 0;
+      display: none;
+      background: var(--accent);
+      color: white;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+    }
+
+    .bulk-bar .actions button {
+      margin-left: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer
+    }
+
+    .bulk-delete {
+      background: var(--danger);
+      color: white
+    }
+
+    .bulk-export {
+      background: white;
+      color: var(--accent);
+      font-weight: 600
+    }
+
+    .bulk-edit {
+      background: white;
+      color: var(--accent);
+      font-weight: 600
+    }
+
+    /* Table */
+    .table-wrap {
+      overflow: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px
+    }
+
+    thead th {
+      background: #fff;
+      /* position:sticky; */
+      top: 48px;
+      padding: 12px 14px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      z-index: 40
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle
+    }
+
+    tbody tr:hover {
+      background: #fbfdfe
+    }
+
+    td input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      box-sizing: border-box
+    }
+
+    td .actions {
+      display: flex;
+      gap: 6px
+    }
+
+    .btn {
+      padding: 6px 10px;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer
+    }
+
+    .btn-edit {
+      background: var(--accent)!important;
+      color: white!important;
+    }
+
+    .btn-save {
+      background: var(--brand)!important;
+      color: white!important;
+    }
+
+    .btn-cancel {
+      background: #eee!important;
+    }
+
+    .btn-delete {
+      background: var(--danger)!important;
+      color: white!important;
+    }
+
+    th.sortable {
+      cursor: pointer;
+      user-select: none
+    }
+
+    th.sort-asc::after {
+      content: ' ▲';
+      font-size: 12px;
+      color: #444
+    }
+
+    th.sort-desc::after {
+      content: ' ▼';
+      font-size: 12px;
+      color: #444
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      gap: 10px
+    }
+
+    .pagination button {
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: none;
+      background: var(--brand);
+      color: white;
+      cursor: pointer
+    }
+
+    .pagination button[disabled] {
+      background: #ccc;
+      cursor: default
+    }
+
+    .empty {
+      padding: 30px;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic
+    }
+
+    .loading {
+      padding: 30px;
+      text-align: center;
+      color: var(--muted)
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200
+    }
+
+    .modal {
+      background: white;
+      padding: 18px;
+      border-radius: 10px;
+      min-width: 320px;
+      box-shadow: 0 8px 30px rgba(10, 20, 30, .2);
+      text-align: center
+    }
+
+    .modal .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 12px
+    }
+
+
+    .table-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      max-width: 1100px;
+      /* Keep fixed max-width for desktop */
+      width: 100%;
+      /* Ensure responsiveness */
+      margin: auto;
+      overflow-x: auto;
+      /* Allow scroll on small screens */
+    }
+
+    table td input[type="text"] {
+      margin-top: 4px;
+      /* Space between table header and input */
+    }
+
+    td.actions-cell {
+      white-space: nowrap;
+      /* Keep buttons on same line */
+    }
+
+    .pagination{
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      td.actions-cell {
+        white-space: normal;
+        /* Allow wrapping on small devices */
+      }
+
+      .action-btn {
+        display: block;
+        margin-bottom: 5px;
+        width: 100%;
+      }
+    }
+
+    /* small screens: hide some less-critical columns */
+    @media (max-width:800px) {
+      table {
+        min-width: 700px
+      }
+    }
+
+    @media (max-width:640px) {
+      table {
+        min-width: 600px
+      }
+
+      th:nth-child(5),
+      td:nth-child(5) {
+        display: none
+      }
+
+    }
+  </style>
+</head>
+<body class="dashboard-page">
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar placeholder -->
+    <div id="sidebar-container" class="col-lg-3 col-xl-2 p-0"></div>
+
+    <!-- Main content -->
+    <main class="col-lg-9 col-xl-10">
+      <div class="topbar d-flex align-items-center p-2 border-bottom">
+        <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i class="ri-menu-line"></i></button>
+        <h5 class="ms-3 mb-0">Dashboard</h5>
+      </div>
+
+      <section class="p-3">
+        <div class="card-soft p-3">
+     <div class="container">
+              <div style="height:6px"></div>
+              <div class="card">
+                <div class="topbar">
+                  <div class="left-controls">
+                    <button class="add-btn" id="addNewBtn">+ Add New</button>
+                    <input id="searchInput" class="search" placeholder="Search by any field..." />
+                  </div>
+                  <div>
+                    Rows per page:
+                    <select id="rowsPerPage" class="rows-select">
+                      <option value="3">3</option>
+                      <option value="5" selected>5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Bulk action bar (sticky) -->
+                <div class="bulk-bar" id="bulkBar" aria-hidden="true">
+                  <div><strong id="selectedCount">0</strong> selected</div>
+                  <div class="actions">
+                    <button class="bulk-edit" id="bulkEditBtn">Bulk Edit</button>
+                    <button class="bulk-export" id="bulkExportBtn">Export</button>
+                    <button class="bulk-delete" id="bulkDeleteBtn">Delete</button>
+                  </div>
+                </div>
+
+                <!-- Table / Loading / Empty -->
+                <div id="tableArea">
+                  <div id="loading" class="loading">Loading...</div>
+                  <div class="table-wrap" id="tableWrap" style="display:none">
+                    <table role="table" aria-label="Data table" id="dataTable">
+                      <thead>
+                        <tr id="theadRow"></tr>
+                      </thead>
+                      <tbody id="tbody"></tbody>
+                    </table>
+                  </div>
+                  <div id="emptyState" class="empty" style="display:none">No records found.</div>
+                </div>
+
+                <!-- Footer: pagination + info -->
+                <div class="footer">
+                  <div id="rowsInfo">Showing 0-0 of 0</div>
+                  <div class="pagination">
+                    <button id="prevBtn">Previous</button>
+                    <button id="nextBtn">Next</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+fetch('../sidebar-content.html')
+.then(res => res.text())
+.then(html => {
+  document.getElementById('sidebar-container').innerHTML = html;
+
+  // Highlight active menu
+  const current = window.location.pathname.split('/').pop();
+  document.querySelectorAll('#sidebar-container a').forEach(link => {
+    if(link.getAttribute('href') === current){
+      link.classList.add('active');
+      let parent = link.closest('.collapse');
+      while(parent){
+        new bootstrap.Collapse(parent, {toggle:true});
+        parent = parent.closest('.collapse');
+      }
+    }
+  });
+
+  // Sidebar toggle for mobile
+  const sidebar = document.querySelector('.sidebar');
+  document.getElementById('sidebarToggle').addEventListener('click',()=> sidebar.classList.toggle('open'));
+  const sidebarClose = document.getElementById('sidebarClose');
+  if(sidebarClose) sidebarClose.addEventListener('click',()=> sidebar.classList.remove('open'));
+});
+</script>
+ <script>
+    /* -------------------------
+  Sample initial data:
+  add/remove fields here — table columns are generated dynamically
+-------------------------*/
+    let data = [
+      { name: "John", email: "john@example.com", role: "Admin", lastname: "Nakhate", Phonenumber: "1234567890" },
+      { name: "Jane", email: "jane@example.com", role: "User", lastname: "Doe", Phonenumber: "0987654321" },
+      { name: "Alice", email: "alice@example.com", role: "Manager", lastname: "Smith", Phonenumber: "1122334455" },
+      { name: "Bob", email: "bob@example.com", role: "Editor", lastname: "Brown", Phonenumber: "2233445566" },
+      { name: "Sara", email: "sara@example.com", role: "Viewer", lastname: "White", Phonenumber: "3344556677" },
+      { name: "Tom", email: "tom@example.com", role: "User", lastname: "Lee", Phonenumber: "4455667788" },
+      { name: "Emma", email: "emma@example.com", role: "Admin", lastname: "Kim", Phonenumber: "5566778899" }
+    ];
+
+    /* -------------------------
+      State variables
+    -------------------------*/
+    let currentPage = 1;
+    let rowsPerPage = parseInt(document.getElementById('rowsPerPage').value);
+    let sortKey = null;
+    let sortDir = 'asc';
+    let selectedRows = new Set();        // stores global data indexes
+    let editingRows = new Set();        // global indexes in edit mode (single row edit or bulk edit)
+    let isAddingNew = false;
+    let newRowTemp = null;              // when adding new
+    let confirmAction = null;           // function to execute after confirmation modal
+
+    /* UI refs */
+    const tbody = document.getElementById('tbody');
+    const theadRow = document.getElementById('theadRow');
+    const rowsInfo = document.getElementById('rowsInfo');
+    const searchInput = document.getElementById('searchInput');
+    const rowsPerPageEl = document.getElementById('rowsPerPage');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const bulkBar = document.getElementById('bulkBar');
+    const selectedCountEl = document.getElementById('selectedCount');
+    const addNewBtn = document.getElementById('addNewBtn');
+    const loadingEl = document.getElementById('loading');
+    const tableWrap = document.getElementById('tableWrap');
+    const emptyState = document.getElementById('emptyState');
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmText = document.getElementById('confirmText');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+    const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+    const bulkExportBtn = document.getElementById('bulkExportBtn');
+    const bulkEditBtn = document.getElementById('bulkEditBtn');
+
+    /* small loading simulation */
+    setTimeout(() => { loadingEl.style.display = 'none'; tableWrap.style.display = 'block'; render(); }, 250);
+
+    /* Utility: get column keys from data (in ordered manner) */
+    function getColumnKeys() {
+      if (data.length === 0) return [];
+      // keep natural order of keys from first object
+      return Object.keys(data[0]).filter(k => k !== '__meta'); // ignore any meta
+    }
+
+    /* Build thead dynamically */
+    function buildHeader() {
+      const keys = getColumnKeys();
+      theadRow.innerHTML = '';
+      // select all checkbox header
+      const thSelect = document.createElement('th');
+      thSelect.innerHTML = `<input type="checkbox" id="selectAllPage">`;
+      theadRow.appendChild(thSelect);
+
+      keys.forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = prettifyHeader(key);
+        th.setAttribute('data-key', key);
+        th.classList.add('sortable');
+        if (sortKey === key) th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+        th.addEventListener('click', () => {
+          if (sortKey === key) sortDir = (sortDir === 'asc' ? 'desc' : 'asc');
+          else { sortKey = key; sortDir = 'asc'; }
+          buildHeader();
+          render();
+        });
+        theadRow.appendChild(th);
+      });
+
+      // actions column header
+      const thAction = document.createElement('th');
+      thAction.textContent = 'Actions';
+      theadRow.appendChild(thAction);
+
+      // select all handler (page-level)
+      const selectAllPage = document.getElementById('selectAllPage');
+      selectAllPage && (selectAllPage.checked = false);
+      if (selectAllPage) {
+        selectAllPage.onchange = function () {
+          const pageItems = getPaginatedIndexedData();
+          if (this.checked) pageItems.forEach(item => selectedRows.add(item.index));
+          else pageItems.forEach(item => selectedRows.delete(item.index));
+          updateBulkBar();
+          render(); // to re-render checkboxes
+        };
+      }
+    }
+
+    /* Pretty header text */
+    function prettifyHeader(k) {
+      // simple transformation for camelCase or Phonenumber etc.
+      return k.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    /* Get filtered + sorted array with global indexes: [{index: originalIndex, row: {...}}] */
+    function getFilteredSortedIndexedData() {
+      const q = searchInput.value.trim().toLowerCase();
+      let arr = data.map((row, i) => ({ index: i, row }));
+
+      if (q) {
+        arr = arr.filter(item => {
+          return Object.values(item.row).some(v => {
+            return String(v).toLowerCase().includes(q);
+          });
+        });
+      }
+
+      if (sortKey) {
+        arr.sort((a, b) => {
+          const A = ('' + (a.row[sortKey] ?? '')).toLowerCase();
+          const B = ('' + (b.row[sortKey] ?? '')).toLowerCase();
+          if (A === B) return 0;
+          return sortDir === 'asc' ? (A.localeCompare(B)) : (B.localeCompare(A));
+        });
+      }
+      return arr;
+    }
+
+    /* Get paginated slice (as array of {index,row}) */
+    function getPaginatedIndexedData() {
+      const arr = getFilteredSortedIndexedData();
+      const start = (currentPage - 1) * rowsPerPage;
+      return arr.slice(start, start + rowsPerPage);
+    }
+
+    /* Render table body */
+    function render() {
+      buildHeader();
+      const allFiltered = getFilteredSortedIndexedData();
+      const paginated = getPaginatedIndexedData();
+
+      // Empty / No results / show table
+      if (allFiltered.length === 0) {
+        tableWrap.style.display = 'none';
+        emptyState.style.display = 'block';
+        rowsInfo.textContent = `Showing 0-0 of 0`;
+        document.getElementById('selectAllPage') && (document.getElementById('selectAllPage').checked = false);
+        updateBulkBar();
+        return;
+      } else {
+        tableWrap.style.display = 'block';
+        emptyState.style.display = 'none';
+      }
+
+      // If currentPage is out of range after changes, clamp
+      const totalPages = Math.max(1, Math.ceil(allFiltered.length / rowsPerPage));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      tbody.innerHTML = '';
+
+      // If adding new row, render editable new row on top
+      if (isAddingNew && newRowTemp) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = buildEditableRowHtml('new', newRowTemp);
+        tbody.appendChild(tr);
+      }
+
+      // Render each row
+      paginated.forEach((item, i) => {
+        const idx = item.index;
+        const row = item.row;
+        const tr = document.createElement('tr');
+
+        // Checkbox cell
+        const checked = selectedRows.has(idx) ? 'checked' : '';
+        const checkboxCell = `<td><input type="checkbox" class="row-checkbox" data-index="${idx}" ${checked}></td>`;
+
+        // For each column
+        const keys = getColumnKeys();
+        const cols = keys.map(k => {
+          // if this row is in editingRows -> render input
+          if (editingRows.has(idx)) {
+            const val = row[k] ?? '';
+            const id = `input-${idx}-${k}`;
+            return `<td><input id="${id}" type="text" value="${escapeHtml(val)}" /></td>`;
+          } else {
+            return `<td>${escapeHtml(row[k] ?? '')}</td>`;
+          }
+        }).join('');
+
+        // actions
+        let actionsHtml = '';
+        if (editingRows.has(idx)) {
+          actionsHtml = `<td class="actions">
+        <button class="btn btn-save" onclick="saveRow(${idx})">Save</button>
+        <button class="btn btn-cancel" onclick="cancelRowEdit(${idx})">Cancel</button>
+      </td>`;
+        } else {
+          actionsHtml = `<td class="actions">
+        <button class="btn btn-edit" onclick="startRowEdit(${idx})">Edit</button>
+        <button class="btn btn-delete" onclick="confirmDeleteSingle(${idx})">Delete</button>
+      </td>`;
+        }
+
+        tr.innerHTML = checkboxCell + cols + actionsHtml;
+        tbody.appendChild(tr);
+      });
+
+      // Update rows info
+      const start = (currentPage - 1) * rowsPerPage + 1;
+      const end = Math.min(currentPage * rowsPerPage, allFiltered.length);
+      rowsInfo.textContent = `Showing ${start}-${end} of ${allFiltered.length}`;
+
+      // Buttons enabled?
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= Math.ceil(allFiltered.length / rowsPerPage);
+
+      // Attach listeners for checkboxes (they were inserted as HTML)
+      document.querySelectorAll('.row-checkbox').forEach(cb => {
+        cb.onchange = (e) => {
+          const idx = parseInt(cb.getAttribute('data-index'));
+          if (cb.checked) selectedRows.add(idx); else selectedRows.delete(idx);
+          updateBulkBar();
+          // update select all checkbox state
+          syncSelectAllPageCheckbox();
+        };
+      });
+
+      // sync select all
+      syncSelectAllPageCheckbox();
+
+      // show/hide bulk bar
+      updateBulkBar();
+    }
+
+    /* Escape HTML for safety */
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+    }
+
+    /* Build HTML string for a new editable row (idPrefix 'new') */
+    function buildEditableRowHtml(prefix, rowTemplate) {
+      const keys = getColumnKeys();
+      const parts = keys.map(k => {
+        const id = `${prefix}-${k}`;
+        const val = rowTemplate[k] ?? '';
+        return `<td><input id="${id}" type="text" value="${escapeHtml(val)}" placeholder="${prettifyHeader(k)}" /></td>`;
+      }).join('');
+      return `<td></td>${parts}<td class="actions">
+    <button class="btn btn-save" onclick="saveNewRow()">Save</button>
+    <button class="btn btn-cancel" onclick="cancelAddNew()">Cancel</button>
+  </td>`;
+    }
+
+    /* Sync select-all-page checkbox (indeterminate if partial) */
+    function syncSelectAllPageCheckbox() {
+      const pageItems = getPaginatedIndexedData();
+      const selectAllPage = document.getElementById('selectAllPage');
+      if (!selectAllPage) return;
+      const pageIndexes = pageItems.map(i => i.index);
+      const countSelectedOnPage = pageIndexes.filter(i => selectedRows.has(i)).length;
+      selectAllPage.checked = countSelectedOnPage === pageIndexes.length && pageIndexes.length > 0;
+      selectAllPage.indeterminate = countSelectedOnPage > 0 && countSelectedOnPage < pageIndexes.length;
+    }
+
+    /* Update bulk bar visibility and count */
+    function updateBulkBar() {
+      const count = selectedRows.size;
+      selectedCountEl.textContent = count;
+      if (count > 0) {
+        bulkBar.style.display = 'flex'; bulkBar.setAttribute('aria-hidden', 'false');
+      } else {
+        bulkBar.style.display = 'none'; bulkBar.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    /* --- Actions: pagination, search, rowsperpage --- */
+    prevBtn.onclick = () => {
+      if (currentPage > 1) { currentPage--; render(); }
+    };
+    nextBtn.onclick = () => {
+      const total = getFilteredSortedIndexedData().length;
+      const lastPage = Math.max(1, Math.ceil(total / rowsPerPage));
+      if (currentPage < lastPage) { currentPage++; render(); }
+    };
+    rowsPerPageEl.onchange = () => {
+      rowsPerPage = parseInt(rowsPerPageEl.value);
+      currentPage = 1; render();
+    };
+    searchInput.oninput = () => {
+      currentPage = 1; render();
+    };
+
+    /* --- Add new row flow --- */
+    addNewBtn.onclick = () => {
+      if (isAddingNew) return; // avoid duplicates
+      isAddingNew = true;
+      newRowTemp = {};
+      // populate keys with empty strings based on first row keys or fallback
+      const keys = getColumnKeys();
+      if (keys.length === 0) {
+        // if no data yet: ask user for default columns (fallback simple set)
+        newRowTemp = { name: '', email: '', role: '' };
+      } else {
+        keys.forEach(k => newRowTemp[k] = '');
+      }
+      // Prepend new row on top of page (render will show it)
+      render();
+      // focus first input next tick
+      setTimeout(() => {
+        const firstKey = getColumnKeys()[0] ?? Object.keys(newRowTemp)[0];
+        const el = document.getElementById(`new-${firstKey}`);
+        el && el.focus();
+      }, 50);
+    };
+
+    function cancelAddNew() {
+      isAddingNew = false;
+      newRowTemp = null;
+      render();
+    }
+
+    function saveNewRow() {
+      // collect values
+      const keys = getColumnKeys();
+      const newObj = {};
+      let ok = true;
+      keys.forEach(k => {
+        const id = `new-${k}`;
+        const el = document.getElementById(id);
+        const v = el ? el.value.trim() : '';
+        if (!v) {
+          ok = false;
+          el && (el.style.borderColor = 'red');
+        } else {
+          el && (el.style.borderColor = '#ddd');
+        }
+        newObj[k] = v;
+      });
+      if (!ok) { alert('Please fill all fields.'); return; }
+      // add to top of data
+      data.unshift(newObj);
+      isAddingNew = false; newRowTemp = null;
+      // reset pagination to show newest
+      currentPage = 1;
+      render();
+    }
+
+    /* --- Per-row edit flows --- */
+    function startRowEdit(globalIndex) {
+      // disallow editing a row while adding new row active -> nice UX: allow but user careful
+      editingRows.add(globalIndex);
+      render();
+    }
+    function cancelRowEdit(globalIndex) {
+      editingRows.delete(globalIndex);
+      render();
+    }
+    function saveRow(globalIndex) {
+      const keys = getColumnKeys();
+      const newObj = {};
+      let ok = true;
+      keys.forEach(k => {
+        const id = `input-${globalIndex}-${k}`;
+        const el = document.getElementById(id);
+        const v = el ? el.value.trim() : '';
+        if (!v) { ok = false; el && (el.style.borderColor = 'red'); } else el && (el.style.borderColor = '#ddd');
+        newObj[k] = v;
+      });
+      if (!ok) { alert('Please fill all fields.'); return; }
+      data[globalIndex] = newObj;
+      editingRows.delete(globalIndex);
+      render();
+    }
+
+    /* --- Bulk actions: delete, export, bulk edit --- */
+    bulkDeleteBtn.onclick = () => {
+      if (selectedRows.size === 0) { alert('Select rows first'); return; }
+      confirmText.textContent = `Delete ${selectedRows.size} selected row(s)? This cannot be undone.`;
+      confirmModal.style.display = 'flex';
+      confirmAction = () => {
+        // perform delete: remove by filtering indices not in selectedRows
+        data = data.filter((_, i) => !selectedRows.has(i));
+        selectedRows.clear();
+        editingRows.clear();
+        confirmModal.style.display = 'none';
+        render();
+      };
+    };
+    bulkExportBtn.onclick = () => {
+      if (selectedRows.size === 0) { alert('Select rows first'); return; }
+      // create CSV from selected rows
+      const keys = getColumnKeys();
+      const rows = Array.from(selectedRows).map(idx => data[idx]);
+      const csv = [keys.join(',')].concat(rows.map(r => keys.map(k => `"${String(r[k] ?? '').replace(/"/g, '""')}"`).join(','))).join('\n');
+      // download
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `export_${Date.now()}.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    };
+    bulkEditBtn.onclick = () => {
+      if (selectedRows.size === 0) { alert('Select rows first'); return; }
+      // put all selectedRows into editing mode
+      editingRows = new Set(Array.from(selectedRows));
+      render();
+    };
+
+    /* Save all edits: when many rows are being edited, we will show Save on each row — but implement a global Save All if desired.
+       For simplicity we rely on per-row Save buttons. However to support "Save All" quickly:
+    */
+    function saveAllBulkEdits() {
+      // iterate editingRows, read inputs for each
+      const keys = getColumnKeys();
+      const toSave = Array.from(editingRows);
+      for (const idx of toSave) {
+        const newObj = {};
+        let ok = true;
+        for (const k of keys) {
+          const id = `input-${idx}-${k}`;
+          const el = document.getElementById(id);
+          const v = el ? el.value.trim() : '';
+          if (!v) { ok = false; el && (el.style.borderColor = 'red'); }
+          else el && (el.style.borderColor = '#ddd');
+          newObj[k] = v;
+        }
+        if (!ok) { alert('Please fill all fields for edited rows.'); return; }
+        data[idx] = newObj;
+      }
+      // finish
+      editingRows.clear();
+      selectedRows.clear();
+      render();
+    }
+
+    /* Delete single row confirm */
+    function confirmDeleteSingle(idx) {
+      confirmText.textContent = `Delete this row? This cannot be undone.`;
+      confirmModal.style.display = 'flex';
+      confirmAction = () => {
+        data.splice(idx, 1);
+        selectedRows.delete(idx);
+        editingRows.delete(idx);
+        confirmModal.style.display = 'none';
+        render();
+      };
+    }
+
+    function addNewRow() {
+      editingIndex = data.length; // New index at the end
+      data.push({ name: "", email: "", role: "", lastname: "", Phonenumber: "" });
+      updateTable();
+    }
+
+    /* Confirm modal handlers */
+    confirmYes.onclick = () => {
+      if (confirmAction) confirmAction();
+      confirmAction = null;
+    };
+    confirmNo.onclick = () => {
+      confirmAction = null;
+      confirmModal.style.display = 'none';
+    };
+
+    /* Cancel bulk edit: revert editingRows */
+    function cancelBulkEdit() {
+      editingRows.clear();
+      render();
+    }
+
+    /* Export selected helper provided above */
+
+    /* Helper to automatically reindex selectedRows after deletes:
+       Because we use global original indexes, they become stale after deletions.
+       We handle this by clearing selectedRows after destructive ops (we already do).
+    */
+
+    /* Utility: global functions for inline buttons (they need to be global) */
+    window.startRowEdit = startRowEdit;
+    window.cancelRowEdit = cancelRowEdit;
+    window.saveRow = saveRow;
+    window.saveNewRow = saveNewRow;
+    window.cancelAddNew = cancelAddNew;
+    window.saveAllBulkEdits = saveAllBulkEdits;
+    window.confirmDeleteSingle = confirmDeleteSingle;
+
+    /* Initial render */
+    render();
+
+  </script>
+</body>
+</html>

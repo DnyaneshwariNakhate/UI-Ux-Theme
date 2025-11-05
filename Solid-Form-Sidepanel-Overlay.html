@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+ <style>
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  /* height: 100vh; */
+}
+
+/* Left Form */
+.login-form {
+  flex: 0 0 30%;
+  background: #fff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.login-form p {
+  margin-bottom: 25px;
+  color: #666;
+}
+
+.login-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input {
+    width: 100%!important;
+  padding: 12px;
+  margin-bottom: 20px!important;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button {
+  background: #00999A;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px!important;
+  font-size: 16px!important;
+  cursor: pointer!important;
+  margin-bottom: 20px!important;
+}
+
+button:hover {
+  background: #007c7c;
+}
+
+.form-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-links a {
+  font-size: 14px;
+  color: #00999A;
+  text-decoration: none;
+}
+
+.form-links a:hover {
+  text-decoration: underline;
+}
+
+/* Right Brand Panel */
+.login-brand {
+  flex: 1;
+  background: url('/images/corporate.jpg') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.login-brand::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-content h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.brand-content p {
+  font-size: 18px;
+}
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .login-form {
+    flex: none;
+    width: 100%;
+  }
+
+  .login-brand {
+    height: 200px;
+    flex: none;
+  }
+}
+</style>
+</head>
+
+<body class="dashboard-page">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar placeholder -->
+            <div id="sidebar-container" class="col-lg-3 col-xl-2 p-0"></div>
+
+            <!-- Main content -->
+            <main class="col-lg-9 col-xl-10">
+                <div class="topbar d-flex align-items-center p-2 border-bottom">
+                    <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i
+                            class="ri-menu-line"></i></button>
+                    <h5 class="ms-3 mb-0">Dashboard</h5>
+                </div>
+
+                <section class="p-3">
+                    <div class="card-soft p-3">
+                        <!-- ------------------ -->
+                    <div class="login-container">
+                    
+                        <!-- Left Form Panel -->
+                        <div class="login-form">
+                            <h2>Welcome Back</h2>
+                            <p>Please sign in to continue</p>
+                    
+                            <form>
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="Enter your email" required>
+                    
+                                <label for="password">Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="password" placeholder="Enter your password" required>
+                                    <span class="toggle-password">👁</span>
+                                </div>
+                    
+                                <button type="submit">Login</button>
+                    
+                                <div class="form-links">
+                                    <a href="#">Forgot Password?</a>
+                                    <a href="#">Sign Up</a>
+                                </div>
+                            </form>
+                        </div>
+                    
+                        <!-- Right Brand Panel -->
+                        <div class="login-brand">
+                            <div class="brand-content">
+                                <h1>MyBrand</h1>
+                                <p>Secure access to your dashboard</p>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                        <!-- ------------------ -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('../sidebar-content.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+
+                // Highlight active menu
+                const current = window.location.pathname.split('/').pop();
+                document.querySelectorAll('#sidebar-container a').forEach(link => {
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                        let parent = link.closest('.collapse');
+                        while (parent) {
+                            new bootstrap.Collapse(parent, { toggle: true });
+                            parent = parent.closest('.collapse');
+                        }
+                    }
+                });
+
+                // Sidebar toggle for mobile
+                const sidebar = document.querySelector('.sidebar');
+                document.getElementById('sidebarToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+                const sidebarClose = document.getElementById('sidebarClose');
+                if (sidebarClose) sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+            });
+    </script>
+   <script>
+  // Password toggle
+  document.querySelector('.toggle-password').addEventListener('click', function() {
+    const pwd = document.getElementById('password');
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+  });
+</script>
+</body>
+
+</html>
