@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.horizontal-profile-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  max-width: 600px;
+  transition: transform 0.3s;
+  gap: 20px;
+}
+
+.horizontal-profile-card:hover {
+  transform: translateY(-4px);
+}
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #00999A;
+}
+
+.profile-content {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.profile-role {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 8px;
+}
+
+.profile-bio {
+  font-size: 13px;
+  color: #555;
+  margin: 0 0 12px;
+}
+
+.profile-actions a {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #00999A;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.profile-actions a:hover {
+  color: #006e6f;
+}
+
+</style>
+</head>
+
+<body class="dashboard-page">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar placeholder -->
+            <div id="sidebar-container" class="col-lg-3 col-xl-2 p-0"></div>
+
+            <!-- Main content -->
+            <main class="col-lg-9 col-xl-10">
+                <div class="topbar d-flex align-items-center p-2 border-bottom">
+                    <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i
+                            class="ri-menu-line"></i></button>
+                    <h5 class="ms-3 mb-0">Dashboard</h5>
+                </div>
+
+                <section class="p-3">
+                    <div class="card-soft p-3">
+                        <!-- ------------------ -->
+                        <div class="horizontal-profile-card">
+                            <img src="/images/profile.png" alt="Profile Photo" class="profile-img">
+                        
+                            <div class="profile-content">
+                                <h2 class="profile-name">Dnyaneshwari Nakhate</h2>
+                                <p class="profile-role">UI/UX Designer</p>
+                                <p class="profile-bio">Designing clean, usable interfaces with a focus on user experience.</p>
+                        
+                                <div class="profile-actions">
+                                    <a href="mailto:example@email.com" title="Email">📧</a>
+                                    <a href="https://linkedin.com" title="LinkedIn">🔗</a>
+                                    <a href="#" title="Send Message">💬</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ------------------ -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('../sidebar-content.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+
+                // Highlight active menu
+                const current = window.location.pathname.split('/').pop();
+                document.querySelectorAll('#sidebar-container a').forEach(link => {
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                        let parent = link.closest('.collapse');
+                        while (parent) {
+                            new bootstrap.Collapse(parent, { toggle: true });
+                            parent = parent.closest('.collapse');
+                        }
+                    }
+                });
+
+                // Sidebar toggle for mobile
+                const sidebar = document.querySelector('.sidebar');
+                document.getElementById('sidebarToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+                const sidebarClose = document.getElementById('sidebarClose');
+                if (sidebarClose) sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+            });
+    </script>
+   
+</body>
+
+</html>
